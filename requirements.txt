@@ -1,0 +1,14 @@
+typer
+rich
+polars
+requests
+python-dotenv
+neo4j
+gqlalchemy  # Memgraph
+arango
+asyncio
+aiohttp
+numpy
+matplotlib
+seaborn
+plotly

@@ -1,0 +1,30 @@
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+*.pyc
+__pycache__/
+
+# Environment variables (CRITICAL: Do not commit credentials)
+.env
+.env.local
+
+# Data (Don't commit large datasets)
+data/
+*.csv
+*.gz
+email-Enron.txt
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+
+# Benchmark results (Optional, but good to ignore raw JSON if it gets large. 
+# For this assignment, we might actually want to commit them to prove runs.
+# We will leave results_*.json un-ignored, but ignore temporary files)
+*.tmp
