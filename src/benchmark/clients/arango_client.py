@@ -108,13 +108,17 @@ class ArangoDBClient(GraphDatabaseClient):
             end_time = time.time() + duration_sec
             while time.time() < end_time:
                 op = random.choice(["read", "write", "traverse"])
-                if op == "read":
-                    self.db.aql.execute("FOR n IN Nodes FILTER n._key == '1' RETURN n").batch()
-                elif op == "write":
-                    self.db.aql.execute("FOR n IN Nodes FILTER n._key == '1' UPDATE n WITH { updated: DATE_NOW() } IN Nodes")
-                else:
-                    self.db.aql.execute("FOR v IN 1..1 OUTBOUND 'Nodes/1' Edges LIMIT 5 RETURN v").batch()
-                queries_run += 1
+                node_id = random.choice(["1", "10", "100", "500", "1000"])
+                try:
+                    if op == "read":
+                        self.db.aql.execute("FOR n IN Nodes FILTER n._key == @id RETURN n", bind_vars={"id": node_id}).batch()
+                    elif op == "write":
+                        self.db.aql.execute("FOR n IN Nodes FILTER n._key == @id UPDATE n WITH { updated: DATE_NOW() } IN Nodes", bind_vars={"id": node_id})
+                    else:
+                        self.db.aql.execute("FOR v IN 1..1 OUTBOUND CONCAT('Nodes/', @id) Edges LIMIT 5 RETURN v", bind_vars={"id": node_id}).batch()
+                    queries_run += 1
+                except Exception:
+                    pass
             return queries_run
 
         start_time = time.time()

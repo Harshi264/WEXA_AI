@@ -5,7 +5,7 @@ requests
 python-dotenv
 neo4j
 gqlalchemy  # Memgraph
-arango
+python-arango
 asyncio
 aiohttp
 numpy

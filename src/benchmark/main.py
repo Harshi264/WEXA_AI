@@ -57,7 +57,7 @@ def run(db: str, runs: int = 100, warmup: int = 20):
         # Using a few hardcoded ones that exist in Enron dataset
         sample_nodes = ["1", "10", "100", "500", "1000"]
         
-        with Progress(SpinnerColumn(), TextColumn("[progress.description]{task.description}"), console=console) as progress:
+        with Progress(TextColumn("[progress.description]{task.description}"), console=console) as progress:
             
             # --- 1. Traversals ---
             task_trav = progress.add_task(f"[cyan]Running Traversals on {db}...", total=None)

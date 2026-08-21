@@ -103,13 +103,17 @@ class Neo4jClient(GraphDatabaseClient):
             with self.driver.session() as session:
                 while time.time() < end_time:
                     op = random.choice(["read", "write", "traverse"])
-                    if op == "read":
-                        session.run("MATCH (n:Node {id: 1}) RETURN n").consume()
-                    elif op == "write":
-                        session.run("MATCH (n:Node {id: 1}) SET n.updated = timestamp()").consume()
-                    else:
-                        session.run("MATCH (n:Node {id: 1})-[:EMAILED]->(m) RETURN m LIMIT 5").consume()
-                    queries_run += 1
+                    node_id = random.choice(["1", "10", "100", "500", "1000"])
+                    try:
+                        if op == "read":
+                            session.run("MATCH (n:Node {id: $id}) RETURN n", id=node_id).consume()
+                        elif op == "write":
+                            session.run("MATCH (n:Node {id: $id}) SET n.updated = timestamp()", id=node_id).consume()
+                        else:
+                            session.run("MATCH (n:Node {id: $id})-[:EMAILED]->(m) RETURN m LIMIT 5", id=node_id).consume()
+                        queries_run += 1
+                    except Exception:
+                        pass
             return queries_run
 
         start_time = time.time()

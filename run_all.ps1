@@ -17,7 +17,7 @@ foreach ($db in $databases) {
     
     # 1. Ingest Data
     Write-Host "--> Running Ingestion for $db..." -ForegroundColor Green
-    python -m src.benchmark.main ingest --db $db
+    python -m src.benchmark.main ingest $db
     
     if ($LASTEXITCODE -ne 0) {
         Write-Host "[!] Ingestion failed for $db. Skipping benchmark run." -ForegroundColor Red
@@ -26,7 +26,7 @@ foreach ($db in $databases) {
 
     # 2. Run Benchmarks
     Write-Host "--> Running Benchmarks for $db..." -ForegroundColor Green
-    python -m src.benchmark.main run --db $db --runs 100 --warmup 20
+    python -m src.benchmark.main run $db --runs 100 --warmup 20
     
     if ($LASTEXITCODE -eq 0) {
         Write-Host "[+] Benchmarks completed successfully for $db." -ForegroundColor Green
